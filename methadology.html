@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eVault Project Timeline</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.5;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        .header {
+            margin-bottom: 60px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            border-radius: 2px;
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+        }
+        
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #3b82f6, #8b5cf6, #ec4899);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .milestone {
+            width: 45%;
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            backdrop-filter: blur(10px);
+        }
+        
+        .milestone:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        
+        .milestone::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            transform: rotate(45deg) translateY(-50%);
+            z-index: -1;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        
+        .milestone.left::before {
+            right: -10px;
+        }
+        
+        .milestone.right::before {
+            left: -10px;
+        }
+        
+        .milestone-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .milestone-icon:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .milestone.left .milestone-icon {
+            right: -80px;
+        }
+        
+        .milestone.right .milestone-icon {
+            left: -80px;
+        }
+        
+        .milestone-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .milestone-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #0f172a;
+        }
+        
+        .milestone-description {
+            font-size: 15px;
+            color: #64748b;
+            margin-bottom: 18px;
+            line-height: 1.6;
+        }
+        
+        .milestone-date {
+            align-self: flex-start;
+            font-size: 13px;
+            background: linear-gradient(to right, #f1f5f9, #e2e8f0);
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        
+        .milestone.right {
+            margin-left: auto;
+        }
+        
+        /* Icon colors with gradients */
+        .icon-blue { 
+            background: linear-gradient(135deg, #3b82f6, #2563eb); 
+        }
+        .icon-purple { 
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed); 
+        }
+        .icon-pink { 
+            background: linear-gradient(135deg, #ec4899, #db2777); 
+        }
+        .icon-red { 
+            background: linear-gradient(135deg, #ef4444, #dc2626); 
+        }
+        .icon-yellow { 
+            background: linear-gradient(135deg, #eab308, #ca8a04); 
+        }
+        .icon-green { 
+            background: linear-gradient(135deg, #22c55e, #16a34a); 
+        }
+        .icon-teal { 
+            background: linear-gradient(135deg, #14b8a6, #0d9488); 
+        }
+        .icon-indigo { 
+            background: linear-gradient(135deg, #4f46e5, #4338ca); 
+        }
+        
+        /* Completed badge */
+        .completed-badge {
+            position: absolute;
+            right: 30px;
+            bottom: 30px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transform: rotate(-10deg);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(59, 130, 246, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .row {
+                flex-direction: column;
+            }
+            
+            .milestone {
+                width: calc(100% - 60px);
+                margin-left: 60px;
+                margin-bottom: 40px;
+            }
+            
+            .milestone.left::before,
+            .milestone.right::before {
+                left: -10px;
+                right: auto;
+            }
+            
+            .milestone.left .milestone-icon,
+            .milestone.right .milestone-icon {
+                left: -75px;
+                right: auto;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .completed-badge {
+                right: 20px;
+                bottom: 20px;
+                width: 60px;
+                height: 60px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>eVault Project Timeline</h1>
+        </div>
+        
+        <div class="timeline">
+            <div class="row">
+                <div class="milestone left">
+                    <div class="milestone-content">
+                        <div class="milestone-title">UI Design in Figma</div>
+                        <div class="milestone-description">Created Figma UI and high-fidelity designs for the eVault application interface.</div>
+                 
+                    </div>
+                    <div class="milestone-icon icon-blue">
+                        <img src="https://img.icons8.com/ios/30/ffffff/figma.png" alt="Figma">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="milestone right">
+                    <div class="milestone-content">
+                        <div class="milestone-title">Implemented in Vite JS</div>
+                        <div class="milestone-description">Built the frontend application using Vite JS for optimal development experience.</div>
+                   
+                    </div>
+                    <div class="milestone-icon icon-purple">
+                        <img src="https://img.icons8.com/ios/30/ffffff/source-code.png" alt="Code">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="milestone left">
+                    <div class="milestone-content">
+                        <div class="milestone-title">Developed Smart Contract</div>
+                        <div class="milestone-description">Created blockchain-based smart contracts for secure document verification.</div>
+                        
+                    </div>
+                    <div class="milestone-icon icon-pink">
+                        <img src="https://img.icons8.com/ios/30/ffffff/blockchain.png" alt="Blockchain">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="milestone right">
+                    <div class="milestone-content">
+                        <div class="milestone-title">Integrated with Frontend</div>
+                        <div class="milestone-description">Connected smart contracts with the frontend application via API endpoints.</div>
+           
+                    </div>
+                    <div class="milestone-icon icon-red">
+                        <img src="https://img.icons8.com/ios/30/ffffff/api.png" alt="API">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="milestone left">
+                    <div class="milestone-content">
+                        <div class="milestone-title">WhatsApp OTP Verification</div>
+                        <div class="milestone-description">Implemented secure two-factor authentication using WhatsApp.</div>
+                    
+                    </div>
+                    <div class="milestone-icon icon-yellow">
+                        <img src="https://img.icons8.com/ios/30/ffffff/whatsapp.png" alt="WhatsApp">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="milestone right">
+                    <div class="milestone-content">
+                        <div class="milestone-title">UI Revamp</div>
+                        <div class="milestone-description">Enhanced user interface based on initial user feedback and testing.</div>
+                      
+                    </div>
+                    <div class="milestone-icon icon-green">
+                        <img src="https://img.icons8.com/ios/30/ffffff/design.png" alt="Design">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="milestone left">
+                    <div class="milestone-content">
+                        <div class="milestone-title">Data Encryption Implementation</div>
+                        <div class="milestone-description">Added end-to-end encryption for all sensitive user data when they login.</div>
+                  
+                    </div>
+                    <div class="milestone-icon icon-teal">
+                        <img src="https://img.icons8.com/ios/30/ffffff/lock.png" alt="Security">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="milestone right">
+                    <div class="milestone-content">
+                        <div class="milestone-title">Project Completion</div>
+                        <div class="milestone-description">Finalized all features.</div>
+                     
+                    </div>
+                    <div class="milestone-icon icon-indigo">
+                        <img src="https://img.icons8.com/ios/30/ffffff/checkmark.png" alt="Complete">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="completed-badge">Done</div>
+    </div>
+</body>
+</html>
